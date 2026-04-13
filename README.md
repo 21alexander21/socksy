@@ -1,0 +1,50 @@
+# socksy
+
+Lightweight SOCKS5 proxy server, optimized for Telegram. Built on [microsocks](https://github.com/rofl0r/microsocks) — a tiny, fast, portable SOCKS5 server written in C.
+
+## Features
+
+- Minimal attack surface — statically compiled binary, non-root user, read-only filesystem
+- Optional username/password authentication
+- Single-process, low memory (~64MB limit)
+- Docker-first deployment
+
+## Quick start
+
+```bash
+cp .env.example .env
+# edit .env if you need auth or a custom port
+docker compose up -d
+```
+
+The proxy is now available at `your-server-ip:1080`.
+
+## Telegram setup
+
+1. Open Telegram → Settings → Data and Storage → Proxy
+2. Add Proxy → SOCKS5
+3. Set **Server** to your host IP, **Port** to `1080`
+4. If you configured auth, enter **Username** and **Password**
+5. Save and connect
+
+## Configuration
+
+All settings are in `.env` (see [.env.example](.env.example)):
+
+| Variable | Default | Description |
+|---|---|---|
+| `SOCKS_PORT` | `1080` | Port exposed on the host |
+| `SOCKS_BIND_ADDR` | `0.0.0.0` | Host bind address |
+| `SOCKS_USER` | *(empty)* | Auth username (leave empty to disable auth) |
+| `SOCKS_PASS` | *(empty)* | Auth password |
+
+## Security notes
+
+- The container runs as a non-root user with all capabilities dropped
+- `no-new-privileges` and `read_only` are enabled
+- **Always set `SOCKS_USER` and `SOCKS_PASS`** on public-facing servers to prevent unauthorized use
+- Consider placing behind a firewall that only allows traffic from Telegram subnets
+
+## License
+
+MIT
