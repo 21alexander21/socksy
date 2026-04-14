@@ -4,8 +4,7 @@ services:
     image: socksy
     container_name: socksy
     restart: unless-stopped
-    ports:
-      - "${SOCKS_BIND_ADDR:-0.0.0.0}:${SOCKS_PORT:-1080}:1080"
+    network_mode: host
     env_file: .env
     read_only: true
     security_opt:

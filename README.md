@@ -4,6 +4,7 @@ Lightweight SOCKS5 proxy server, optimized for Telegram. Built on [microsocks](h
 
 ## Features
 
+- IPv4 + IPv6 dual-stack support (important for Telegram)
 - Minimal attack surface — statically compiled binary, non-root user, read-only filesystem
 - Optional username/password authentication
 - Single-process, low memory (~64MB limit)
@@ -33,10 +34,15 @@ All settings are in `.env` (see [.env.example](.env.example)):
 
 | Variable | Default | Description |
 |---|---|---|
-| `SOCKS_PORT` | `1080` | Port exposed on the host |
-| `SOCKS_BIND_ADDR` | `0.0.0.0` | Host bind address |
+| `SOCKS_PORT` | `1080` | Port to listen on |
 | `SOCKS_USER` | *(empty)* | Auth username (leave empty to disable auth) |
 | `SOCKS_PASS` | *(empty)* | Auth password |
+
+## Networking
+
+The default `docker-compose.yml` uses `network_mode: host` so the proxy listens directly on the host network with full IPv4/IPv6 support. This is the simplest setup and works out of the box with Telegram.
+
+If you prefer Docker's bridge networking, replace `network_mode: host` with explicit port bindings and ensure [Docker IPv6 is enabled](https://docs.docker.com/config/daemon/ipv6/).
 
 ## Security notes
 

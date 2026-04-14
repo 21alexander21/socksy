@@ -7,7 +7,7 @@ RUN apk add --no-cache gcc musl-dev git make \
 
 FROM alpine:3.21
 
-RUN apk add --no-cache tini \
+RUN apk add --no-cache tini socat \
     && adduser -D -H -u 10000 socksy
 
 COPY --from=builder /src/microsocks /usr/local/bin/microsocks
