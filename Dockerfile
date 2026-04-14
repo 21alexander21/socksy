@@ -5,16 +5,10 @@ RUN apk add --no-cache gcc musl-dev git make \
     && cd /src \
     && make CFLAGS="-O2 -s -static"
 
-FROM alpine:3.21
+FROM scratch
 
-RUN adduser -D -H -u 10000 socksy
+COPY --from=builder /src/microsocks /microsocks
 
-COPY --from=builder /src/microsocks /usr/local/bin/microsocks
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+USER 65534:65534
 
-USER socksy
-
-EXPOSE 1080
-
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/microsocks"]

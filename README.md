@@ -6,7 +6,7 @@ Lightweight SOCKS5 proxy server, optimized for Telegram. Built on [microsocks](h
 
 - IPv4 + IPv6 dual-stack support (important for Telegram)
 - Minimal attack surface — statically compiled binary, non-root user, read-only filesystem
-- Optional username/password authentication
+- Username/password authentication
 - Single-process, low memory (~64MB limit)
 - Docker-first deployment
 
@@ -14,7 +14,7 @@ Lightweight SOCKS5 proxy server, optimized for Telegram. Built on [microsocks](h
 
 ```bash
 cp .env.example .env
-# edit .env if you need auth or a custom port
+# set SOCKS_USER and SOCKS_PASS in .env
 docker compose up -d
 ```
 
@@ -25,7 +25,7 @@ The proxy is now available at `your-server-ip:1080`.
 1. Open Telegram → Settings → Data and Storage → Proxy
 2. Add Proxy → SOCKS5
 3. Set **Server** to your host IP, **Port** to `1080`
-4. If you configured auth, enter **Username** and **Password**
+4. Enter **Username** and **Password** from your `.env`
 5. Save and connect
 
 ## Configuration
@@ -35,8 +35,8 @@ All settings are in `.env` (see [.env.example](.env.example)):
 | Variable | Default | Description |
 |---|---|---|
 | `SOCKS_PORT` | `1080` | Port to listen on |
-| `SOCKS_USER` | *(empty)* | Auth username (leave empty to disable auth) |
-| `SOCKS_PASS` | *(empty)* | Auth password |
+| `SOCKS_USER` | *(required)* | Auth username |
+| `SOCKS_PASS` | *(required)* | Auth password |
 
 ## Networking
 

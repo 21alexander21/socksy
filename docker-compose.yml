@@ -5,7 +5,16 @@ services:
     container_name: socksy
     restart: unless-stopped
     network_mode: host
-    env_file: .env
+    command:
+      - "-p"
+      - "${SOCKS_PORT:-1080}"
+      - "-b"
+      - "0.0.0.0"
+      - "-1"
+      - "-u"
+      - "${SOCKS_USER:?Set SOCKS_USER in .env}"
+      - "-P"
+      - "${SOCKS_PASS:?Set SOCKS_PASS in .env}"
     read_only: true
     security_opt:
       - no-new-privileges:true
