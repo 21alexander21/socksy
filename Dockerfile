@@ -5,10 +5,12 @@ RUN apk add --no-cache gcc musl-dev git make \
     && cd /src \
     && make CFLAGS="-O2 -s -static"
 
-FROM scratch
+FROM alpine:3.21
 
-COPY --from=builder /src/microsocks /microsocks
+RUN adduser -D -H -u 10000 socksy
 
-USER 65534:65534
+COPY --from=builder /src/microsocks /usr/local/bin/microsocks
 
-ENTRYPOINT ["/microsocks"]
+USER socksy
+
+ENTRYPOINT ["microsocks"]
