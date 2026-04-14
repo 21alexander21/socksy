@@ -7,8 +7,7 @@ RUN apk add --no-cache gcc musl-dev git make \
 
 FROM alpine:3.21
 
-RUN apk add --no-cache tini socat \
-    && adduser -D -H -u 10000 socksy
+RUN adduser -D -H -u 10000 socksy
 
 COPY --from=builder /src/microsocks /usr/local/bin/microsocks
 COPY entrypoint.sh /entrypoint.sh
@@ -18,5 +17,4 @@ USER socksy
 
 EXPOSE 1080
 
-ENTRYPOINT ["tini", "--"]
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
