@@ -16,8 +16,6 @@ services:
       - "-P"
       - "${SOCKS_PASS:?Set SOCKS_PASS in .env}"
     read_only: true
-    security_opt:
-      - no-new-privileges:true
     cap_drop:
       - ALL
     mem_limit: 64m
